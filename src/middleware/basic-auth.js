@@ -1,4 +1,4 @@
-const authService = require('../../auth/auth-service');
+const authService = require('../auth/auth-service');
 const bcrypt = require('bcryptjs');
 
 function requireAuth(req, res, next) {
