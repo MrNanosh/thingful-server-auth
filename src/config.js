@@ -5,5 +5,8 @@ module.exports = {
     'development',
   DB_URL:
     process.env.DB_URL ||
-    'postgresql://dunder_mifflin@localhost/thingful'
+    'postgresql://dunder_mifflin@localhost/thingful',
+  JWT_SECRET:
+    process.env.JWT_SECRET ||
+    'change this secret'
 };

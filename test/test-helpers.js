@@ -1,11 +1,19 @@
-function makeAuthHeader({
-  user_name,
-  password
-}) {
+const jwt = require('jsonwebtoken');
+
+function makeAuthHeader(
+  { user_name, password },
+  secret
+) {
   const token = `${user_name}:${password}`;
-  return `basic ${Buffer.from(
-    token
-  ).toString('Base64')}`;
+  const authToken = jwt.sign(
+    token,
+    secret,
+    {
+      subject: user_name,
+      algorithm: 'HS256'
+    }
+  );
+  return `bearer ${authToken}`;
 }
 function makeUsersArray() {
   return [

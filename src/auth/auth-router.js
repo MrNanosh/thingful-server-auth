@@ -20,6 +20,7 @@ authRouter.post(
       item
     ] of Object.entries(login_user)) {
       if (!item) {
+        console.log('some stuff item');
         return res.status(400).json({
           error: `Missing ${key} in request body`
         });
@@ -32,12 +33,49 @@ authRouter.post(
       )
       .then(user => {
         if (!user) {
+          console.log(
+            'some stuff not user'
+          );
           return res.status(400).json({
             error:
               'bad user name or password'
           });
         }
-        res.send('ok');
+        authService
+          .comparePasswords(
+            login_user.password,
+            user.password
+          )
+          .then(compareMatch => {
+            if (!compareMatch) {
+              console.log(
+                'some compare match'
+              );
+              return res
+                .status(400)
+                .json({
+                  error:
+                    'bad user name or password'
+                });
+            }
+
+            //sending a JSON Web Token if all is good
+            const subject =
+              user.user_name;
+            const payload = {
+              user_id: user.id
+            };
+            console.log(
+              subject,
+              payload
+            );
+            return res.send({
+              authToken: authService.createJWT(
+                subject,
+                payload
+              )
+            });
+          });
       })
       .catch(next);
   }

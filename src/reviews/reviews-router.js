@@ -6,7 +6,7 @@ const reviewsRouter = express.Router();
 const jsonBodyParser = express.json();
 const {
   requireAuth
-} = require('../middleware/basic-auth');
+} = require('../middleware/jwt-auth');
 
 reviewsRouter
   .route('/')
